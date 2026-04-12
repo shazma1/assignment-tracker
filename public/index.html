@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Assignment Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<h1>Smart Assignment Manager</h1>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h3>Add Assignment</h3>
+
+<input id="title" placeholder="Title">
+<input id="subject" placeholder="Subject">
+
+<select id="priority">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<input id="dueDate" type="date">
+
+<button onclick="addAssignment()">Add</button>
+
+</div>
+
+<div class="card">
+
+<h3>Search</h3>
+
+<input id="search" placeholder="Search assignments">
+<button onclick="searchAssignments()">Search</button>
+
+</div>
+
+<div class="card">
+
+<h3>Assignments</h3>
+
+<table>
+
+<thead>
+<tr>
+<th>Title</th>
+<th>Subject</th>
+<th>Priority</th>
+<th>Status</th>
+<th>Due</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="assignmentList"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
+<h2>Assignment Analytics Dashboard</h2>
+
+<div class="analytics">
+
+<div class="card">
+<h3>Total Assignments</h3>
+<p id="totalAssignments">0</p>
+</div>
+
+<div class="card">
+<h3>Completed</h3>
+<p id="completedAssignments">0</p>
+</div>
+
+<div class="card">
+<h3>Pending</h3>
+<p id="pendingAssignments">0</p>
+</div>
+
+<div class="card">
+<h3>Overdue</h3>
+<p id="overdueAssignments">0</p>
+</div>
+
+<div class="card">
+<h3>Completion Rate</h3>
+<p id="completionRate">0%</p>
+</div>
+
+</div>

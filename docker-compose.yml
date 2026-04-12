@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+
+  # --- Your Node.js Web App ---
+  app:
+    build: .                          # Build image using our Dockerfile
+    ports:
+      - "3000:3000"                   # Map host port 3000 to container port 3000
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/assignmentDB  # Use 'mongo' as hostname
+    depends_on:
+      - mongo                         # Start mongo container first
+
+  # --- MongoDB Database ---
+  mongo:
+    image: mongo:6                    # Use official MongoDB image
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db          # Persistent volume (data survives restarts)
+
+# --- Define the named volume ---
+volumes:
+  mongo_data:
