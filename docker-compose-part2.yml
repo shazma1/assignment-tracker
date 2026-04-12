@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+
+  app-part2:
+    image: node:18
+    container_name: assignment-tracker-app
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: sh -c "npm install && node server.js"
+    ports:
+      - "4000:3000"
+    environment:
+      - MONGO_URL=mongodb://mongo-part2:27017/assignmentDB
+    depends_on:
+      - mongo-part2
+
+  mongo-part2:
+    image: mongo:6
+    container_name: assignment-tracker-mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data_part2:/data/db
+
+volumes:
+  mongo_data_part2:
