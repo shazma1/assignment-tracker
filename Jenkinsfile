@@ -10,11 +10,20 @@ pipeline {
             }
         }
 
+        stage('Pull Docker Images') {
+            steps {
+                sh 'docker pull node:18 || true'
+                sh 'docker pull mongo:6 || true'
+                sh 'docker pull markhobson/maven-chrome:jdk-21 || true'
+            }
+        }
+
         stage('Start App') {
             steps {
                 sh 'docker-compose -f $WORKSPACE/docker-compose-part2.yml down || true'
+                sh 'docker rm -f assignment-tracker-mongo assignment-tracker-app || true'
                 sh 'docker-compose -f $WORKSPACE/docker-compose-part2.yml up -d'
-                sh 'sleep 15'
+                sh 'sleep 20'
             }
         }
 
@@ -35,7 +44,7 @@ pipeline {
                         -v $WORKSPACE/selenium-tests:/workspace \
                         -w /workspace \
                         markhobson/maven-chrome:jdk-21 \
-                        mvn test
+                        mvn test -DBASE_URL=http://localhost:4000
                 '''
             }
         }
