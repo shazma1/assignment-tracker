@@ -37,17 +37,17 @@ pipeline {
         }
 
         stage('Run Selenium Tests') {
-            steps {
-                sh '''
-                    docker run --rm \
-                        --network host \
-                        -v $WORKSPACE/selenium-tests:/workspace \
-                        -w /workspace \
-                        markhobson/maven-chrome:jdk-21 \
-                        mvn test -DBASE_URL=http://localhost:4000
-                '''
-            }
-        }
+    steps {
+        sh '''
+            docker run --rm \
+                --network host \
+                -v $WORKSPACE/selenium-tests:/workspace \
+                -w /workspace \
+                markhobson/maven-chrome:jdk-21 \
+                mvn clean test
+        '''
+    }
+}
 
         stage('Stop App') {
             steps {
