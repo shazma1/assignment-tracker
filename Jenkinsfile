@@ -18,13 +18,15 @@ pipeline {
             }
         }
 
-        stage('Start App') {
-            steps {
-                sh 'docker-compose -f $WORKSPACE/docker-compose-part2.yml down || true'
-                sh 'docker rm -f assignment-tracker-mongo assignment-tracker-app || true'
-                sh 'docker-compose -f $WORKSPACE/docker-compose-part2.yml up -d'
-                sh 'sleep 20'
-            }
+       stage('Start App') {
+    steps {
+        sh 'docker-compose -f $WORKSPACE/docker-compose-part2.yml down || true'
+        sh 'docker rm -f assignment-tracker-mongo assignment-tracker-app || true'
+        sh 'docker network rm assignment-tracker-pipeline_default || true'
+        sh 'docker-compose -f $WORKSPACE/docker-compose-part2.yml up -d'
+        sh 'sleep 20'
+    }
+}
         }
 
         stage('Clone Test Repository') {
