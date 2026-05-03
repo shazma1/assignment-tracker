@@ -24,12 +24,13 @@ pipeline {
         }
         stage('Clone Test Repository') {
             steps {
+                sh 'rm -rf $WORKSPACE/selenium-tests'
                 dir('selenium-tests') {
-                    git branch: 'main',
-                        url: 'https://github.com/shazma1/selenium-tests.git'
+                     git branch: 'main',
+                         url: 'https://github.com/shazma1/selenium-tests.git'
                 }
             }
-        }
+       }
         stage('Run Selenium Tests') {
             steps {
                 sh '''
