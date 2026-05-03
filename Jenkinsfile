@@ -1,15 +1,12 @@
 pipeline {
     agent any
-
     stages {
-
         stage('Clone App Repository') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/shazma1/assignment-tracker.git'
             }
         }
-
         stage('Pull Docker Images') {
             steps {
                 sh 'docker pull node:18 || true'
@@ -17,7 +14,6 @@ pipeline {
                 sh 'docker pull markhobson/maven-chrome:jdk-21 || true'
             }
         }
-
         stage('Start App') {
             steps {
                 sh 'docker rm -f assignment-tracker-mongo assignment-tracker-app || true'
@@ -26,7 +22,6 @@ pipeline {
                 sh 'sleep 20'
             }
         }
-
         stage('Clone Test Repository') {
             steps {
                 dir('selenium-tests') {
@@ -35,32 +30,28 @@ pipeline {
                 }
             }
         }
-
         stage('Run Selenium Tests') {
-    steps {
-        sh '''
-            docker run --rm \
-                --network host \
-                -v $WORKSPACE/selenium-tests:/workspace \
-                -w /workspace \
-                markhobson/maven-chrome:jdk-21 \
-                mvn clean test
-        '''
-    }
-}
-
+            steps {
+                sh '''
+                    docker run --rm \
+                        --network host \
+                        -v $WORKSPACE/selenium-tests:/workspace \
+                        -w /workspace \
+                        markhobson/maven-chrome:jdk-21 \
+                        mvn clean test
+                '''
+            }
+        }
         stage('Stop App') {
             steps {
                 sh 'docker-compose -f $WORKSPACE/docker-compose-part2.yml down || true'
             }
         }
     }
-
     post {
         always {
             junit allowEmptyResults: true,
                   testResults: 'selenium-tests/target/surefire-reports/*.xml'
-
             emailext (
                 subject: "Jenkins Build ${currentBuild.fullDisplayName} - ${currentBuild.currentResult}",
                 body: """
